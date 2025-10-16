@@ -5,6 +5,125 @@ All notable changes to the EVS-LC-APPS project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-10-16
+
+### Added
+
+#### Portal Database Enhancements
+- **Extended User Profiles**
+  - `portal_user_profiles` table with social features
+  - Display name, bio, avatar, banner customization
+  - Privacy settings (show online, allow friends, allow messages)
+  - Login statistics tracking (last IP, total logins)
+
+#### Role-Based Access Control (RBAC)
+- **Portal Roles System**
+  - `portal_roles` table for hierarchical role management
+  - Role priority system for access control
+  - Default roles: SUPER_ADMIN, ADMIN, MODERATOR, SUPPORT, USER
+- **Portal Permissions System**
+  - `portal_permissions` table for fine-grained permissions
+  - Resource-action permission format (e.g., users.read, tickets.write)
+  - Many-to-many relationship between roles and permissions
+
+#### Game Bridge Worker
+- **Foundation Implementation**
+  - NestJS-based worker service for real-time game synchronization
+  - Character synchronization worker (every 5 minutes)
+  - Inventory synchronization worker (every 10 minutes)
+  - Guild synchronization worker (every 15 minutes)
+  - Event listener worker for real-time game events
+- **Job Queue System**
+  - Redis-powered Bull queue for reliable job processing
+  - Configurable retry logic and error handling
+  - Concurrent job processing with rate limiting
+- **Sync Status Tracking**
+  - `game_sync_status` table for monitoring synchronization
+  - Tracks sync type, server ID, status, and records processed
+  - Error logging for failed synchronization attempts
+- **Monitoring API**
+  - REST endpoints for sync status and manual triggers
+  - Health check endpoints
+  - Job queue statistics
+  - Prometheus metrics support
+
+#### Authentication Enhancements
+- **2FA Backup Codes**
+  - Generate 10 backup codes per user for 2FA recovery
+  - Hashed storage using Argon2id
+  - One-time use validation
+- **Enhanced Session Management**
+  - Improved session tracking with user agent and IP
+  - Configurable session max age
+  - Automatic cleanup of expired sessions
+
+#### Documentation
+- **Comprehensive Guides**
+  - `docs/AGENT_OMNIFORGE_v1.5.0.md` - Complete multi-phase development agent prompt
+  - `docs/MIGRATION_GUIDE_v1.1.0.md` - Detailed migration guide from v1.0.2
+  - `docs/PORTAL_DB_SCHEMA.md` - Complete portal database schema documentation
+  - `docs/GAME_BRIDGE_GUIDE.md` - Game Bridge Worker setup and operation guide
+- **Updated Roadmap**
+  - Updated `docs/ROADMAP_BASECRAFT.md` with v1.1.0 completion status
+  - Phase tracking for v1.2.0 - v1.5.0 development
+
+#### Infrastructure
+- **CI/CD Pipeline Extension**
+  - Added Game Bridge Worker to build pipeline
+  - Automated testing for bridge worker
+  - Docker build support for new service
+- **Environment Configuration**
+  - New environment variables for Game Bridge Worker
+  - Redis configuration for job queue
+  - Sync interval configuration options
+  - Enhanced database connection pooling settings
+
+### Changed
+
+- **Version Numbers**
+  - Updated VERSION file to v1.1.0
+  - Updated root package.json to 1.1.0
+  - Updated lc_api package.json to 1.1.0
+  - Updated lc_apps package.json to 1.1.0
+  - Added lc_game_bridge with version 1.1.0
+
+- **Database Schema**
+  - Extended User model with backupCodes field (String[])
+  - Added UserProfile relation to User model
+  - Added PortalRole and PortalPermission models
+  - Added GameSyncStatus model for sync tracking
+
+- **Project Structure**
+  - Populated `apps/lc_game_bridge/` with worker implementation
+  - Added Redis as runtime dependency
+  - Added Bull queue as core dependency
+
+### Fixed
+
+- None - This is a feature release with no bug fixes
+
+### Security
+
+- **Enhanced 2FA Recovery**
+  - Backup codes provide secure 2FA recovery method
+  - Argon2id hashing for backup code storage
+  - One-time use prevents code reuse
+
+- **Permission System**
+  - Fine-grained permissions for better access control
+  - Resource-level security with action scoping
+  - Audit trail for permission changes
+
+### Performance
+
+- **Optimized Sync Operations**
+  - Batch processing for large datasets
+  - Configurable concurrency for parallel processing
+  - Connection pooling for database efficiency
+  - Redis caching for frequently accessed data
+
+---
+
 ## [1.0.2] - 2025-10-16
 
 ### Added

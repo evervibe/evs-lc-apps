@@ -8,7 +8,7 @@
 
 This document outlines the planned enhancements and future integrations for the EVS-LC-APPS platform. The roadmap is structured to build upon the solid BaseCraft v1.0.2 foundation, maintaining backward compatibility while introducing advanced features.
 
-## Current Status (v1.0.2)
+## Current Status (v1.1.0)
 
 ✅ **Completed:**
 - Monorepo structure with pnpm workspaces
@@ -21,6 +21,13 @@ This document outlines the planned enhancements and future integrations for the 
 - Comprehensive documentation
 - Environment validation
 - Security hardening
+- **Portal database enhancements (v1.1.0)** ✅
+- **Game Bridge Worker foundation (v1.1.0)** ✅
+- **Enhanced 2FA with backup codes (v1.1.0)** ✅
+
+🔄 **In Progress:**
+- OAuth 2.0 Provider (v1.2.0)
+- Enhanced RBAC System (v1.2.0)
 
 ## Phase 1: Enhanced Integration (v1.1.0) - Q1 2026
 

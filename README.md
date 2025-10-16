@@ -1,6 +1,6 @@
 # EVS-LC Apps - EverVibe Studios Last Chaos Applications
 
-[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](./VERSION)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](./VERSION)
 [![License](https://img.shields.io/badge/license-Custom-red.svg)](./LICENSE-CUSTOM)
 [![Node](https://img.shields.io/badge/node-20%2B-brightgreen.svg)](https://nodejs.org/)
 [![pnpm](https://img.shields.io/badge/pnpm-10%2B-orange.svg)](https://pnpm.io/)
@@ -18,6 +18,10 @@ evs-lc-apps/
 │   │   ├── docs/            # API Documentation
 │   │   ├── scripts/         # Deployment Scripts
 │   │   └── package.json
+│   ├── lc_game_bridge/      # Game Bridge Worker (v1.1.0) 🆕
+│   │   ├── src/            # Worker Source Code
+│   │   ├── package.json    # Worker Dependencies
+│   │   └── README.md       # Worker Documentation
 │   └── lc_apps/             # Frontend Applications
 │       ├── web-portal/      # Public Player Portal (Next.js)
 │       ├── web-admin/       # Admin Dashboard (Next.js)
@@ -31,7 +35,7 @@ evs-lc-apps/
 ├── tsconfig.base.json       # Base TypeScript Config
 ├── .env.example             # Environment Template
 ├── LICENSE-CUSTOM           # Commercial License
-└── VERSION                  # Current Version (v1.0.2)
+└── VERSION                  # Current Version (v1.1.0)
 ```
 
 ## 🚀 Quick Start
@@ -374,18 +378,18 @@ See [LICENSE-CUSTOM](./LICENSE-CUSTOM) for full license terms.
 
 - **Documentation**: [/docs](./docs)
 - **Issues**: [GitHub Issues](https://github.com/evervibe/evs-lc-apps/issues)
-- **Version**: v1.0.2 (Stable)
+- **Version**: v1.1.0 (Stable)
 
 ## 🎯 Project Status
 
-**Current Version**: v1.0.2 (Production Ready)  
+**Current Version**: v1.1.0 (Production Ready)  
 **Last Updated**: 2025-10-16  
 **Status**: Production Ready ✅  
 **CI/CD**: Automated ✅
 
 ### Completed Features
 - ✅ Complete backend API with dual database support
-- ✅ Authentication system with JWT + 2FA
+- ✅ Authentication system with JWT + 2FA (with backup codes)
 - ✅ User portal with all core features
 - ✅ Admin dashboard structure
 - ✅ Monorepo workspace configuration
@@ -395,11 +399,18 @@ See [LICENSE-CUSTOM](./LICENSE-CUSTOM) for full license terms.
 - ✅ **Docker production setup with multi-stage builds**
 - ✅ **CI/CD pipeline with GitHub Actions**
 - ✅ **Environment validation and security headers**
+- ✅ **Portal database enhancements (v1.1.0)** 🆕
+- ✅ **Game Bridge Worker foundation (v1.1.0)** 🆕
+- ✅ **Enhanced RBAC with roles and permissions (v1.1.0)** 🆕
+- ✅ **Extended user profiles with social features (v1.1.0)** 🆕
 
 ### Roadmap
 - [ ] Complete admin dashboard implementation
-- [ ] Real-time notifications via WebSocket
-- [ ] Progressive Web App (PWA) support
+- [ ] **OAuth 2.0 Provider (v1.2.0)** - Discord & Google integration
+- [ ] **Enhanced RBAC system (v1.2.0)** - Hierarchical roles
+- [ ] **Real-time notifications via WebSocket (v1.3.0)**
+- [ ] **Analytics Dashboard (v1.4.0)**
+- [ ] **Progressive Web App (PWA) support (v1.5.0)**
 - [ ] Internationalization (i18n)
 - [ ] Mobile applications
 - [ ] Advanced analytics dashboard
@@ -419,5 +430,5 @@ Powered by:
 
 ---
 
-**EVS-LC Apps v1.0.2** - Modern, Secure, Scalable  
+**EVS-LC Apps v1.1.0** - Modern, Secure, Scalable  
 🎮 Built for the Last Chaos Community
