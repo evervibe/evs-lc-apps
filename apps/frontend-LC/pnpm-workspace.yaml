@@ -1,0 +1,4 @@
+packages:
+  - 'portal-web'
+  - 'admin-ui'
+  - 'shared'

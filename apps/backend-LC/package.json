@@ -1,0 +1,26 @@
+{
+  "name": "lc_api",
+  "version": "1.0.0",
+  "description": "Last Chaos Backend API - Portal + Game Integration",
+  "private": true,
+  "scripts": {
+    "dev": "cd apps/api-server && npm run start:dev",
+    "build": "cd apps/api-server && npm run build",
+    "start": "cd apps/api-server && npm run start:prod",
+    "lint": "cd apps/api-server && npm run lint",
+    "test": "cd apps/api-server && npm test",
+    "test:watch": "cd apps/api-server && npm run test:watch",
+    "test:cov": "cd apps/api-server && npm run test:cov",
+    "prisma:generate": "cd apps/api-server && npm run prisma:generate",
+    "prisma:migrate": "cd apps/api-server && npm run prisma:migrate",
+    "prisma:studio": "cd apps/api-server && npm run prisma:studio",
+    "install:all": "cd apps/api-server && npm install"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

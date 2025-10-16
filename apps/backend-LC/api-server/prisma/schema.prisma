@@ -1,0 +1,279 @@
+// Prisma schema for LC Portal System (PostgreSQL)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PortalUser {
+  id               BigInt               @id @default(autoincrement())
+  username         String               @unique @db.VarChar(64)
+  email            String               @unique @db.VarChar(255)
+  passwordHash     String               @map("password_hash") @db.VarChar(255)
+  emailVerifiedAt  DateTime?            @map("email_verified_at") @db.Timestamptz()
+  status           String               @default("pending") @db.Text
+  createdAt        DateTime             @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt        DateTime             @updatedAt @map("updated_at") @db.Timestamptz()
+  
+  security         PortalUserSecurity?
+  oauthProviders   PortalOAuthProvider[]
+  gameAccounts     PortalGameAccount[]
+  sessions         PortalSession[]
+  activityLogs     PortalActivityLog[]
+  roles            PortalUserRole[]
+  tickets          PortalTicket[]
+  votes            PortalVote[]
+  redeemCodes      PortalRedeemCode[]   @relation("RedeemCodeUser")
+
+  @@map("portal_users")
+  @@index([username])
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model PortalUserSecurity {
+  userId               BigInt    @id @map("user_id")
+  totpSecret           String?   @map("totp_secret") @db.Text
+  totpEnabled          Boolean   @default(false) @map("totp_enabled")
+  backupCodes          String?   @map("backup_codes") @db.Text
+  failedLoginAttempts  Int       @default(0) @map("failed_login_attempts")
+  lockedUntil          DateTime? @map("locked_until") @db.Timestamptz()
+  passwordChangedAt    DateTime? @map("password_changed_at") @db.Timestamptz()
+  
+  user                 PortalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("portal_user_security")
+}
+
+model PortalOAuthProvider {
+  id               BigInt    @id @default(autoincrement())
+  userId           BigInt    @map("user_id")
+  provider         String    @db.Text
+  providerUserId   String    @map("provider_user_id") @db.Text
+  providerUsername String?   @map("provider_username") @db.Text
+  providerEmail    String?   @map("provider_email") @db.Text
+  providerAvatar   String?   @map("provider_avatar") @db.Text
+  accessToken      String?   @map("access_token") @db.Text
+  refreshToken     String?   @map("refresh_token") @db.Text
+  expiresAt        DateTime? @map("expires_at") @db.Timestamptz()
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  
+  user             PortalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+  @@map("portal_oauth_providers")
+}
+
+model PortalGameAccount {
+  id            BigInt    @id @default(autoincrement())
+  portalUserId  BigInt    @map("portal_user_id")
+  gameUserCode  BigInt    @map("game_user_code")
+  serverId      String    @map("server_id") @db.Text
+  linkedAt      DateTime  @default(now()) @map("linked_at") @db.Timestamptz()
+  lastSyncAt    DateTime? @map("last_sync_at") @db.Timestamptz()
+  isPrimary     Boolean   @default(false) @map("is_primary")
+  
+  user          PortalUser @relation(fields: [portalUserId], references: [id], onDelete: Cascade)
+
+  @@unique([gameUserCode, serverId])
+  @@map("portal_game_accounts")
+  @@index([portalUserId])
+}
+
+model PortalSession {
+  id           String   @id @db.Text
+  userId       BigInt?  @map("user_id")
+  ipAddress    String?  @map("ip_address") @db.Text
+  userAgent    String?  @map("user_agent") @db.Text
+  payload      Json
+  lastActivity DateTime @map("last_activity") @db.Timestamptz()
+  
+  user         PortalUser? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("portal_sessions")
+  @@index([userId])
+  @@index([lastActivity])
+}
+
+model PortalActivityLog {
+  id         BigInt    @id @default(autoincrement())
+  userId     BigInt?   @map("user_id")
+  action     String    @db.Text
+  ipAddress  String?   @map("ip_address") @db.Text
+  userAgent  String?   @map("user_agent") @db.Text
+  metadata   Json?
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  
+  user       PortalUser? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("portal_activity_log")
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+model PortalRole {
+  id          BigInt               @id @default(autoincrement())
+  name        String               @unique @db.Text
+  description String?              @db.Text
+  
+  permissions PortalRolePermission[]
+  users       PortalUserRole[]
+
+  @@map("portal_roles")
+}
+
+model PortalPermission {
+  id          BigInt               @id @default(autoincrement())
+  name        String               @unique @db.Text
+  description String?              @db.Text
+  
+  roles       PortalRolePermission[]
+
+  @@map("portal_permissions")
+}
+
+model PortalRolePermission {
+  roleId       BigInt @map("role_id")
+  permissionId BigInt @map("permission_id")
+  
+  role         PortalRole       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   PortalPermission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("portal_role_permissions")
+}
+
+model PortalUserRole {
+  userId     BigInt   @map("user_id")
+  roleId     BigInt   @map("role_id")
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz()
+  
+  user       PortalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       PortalRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("portal_user_roles")
+}
+
+model PortalNews {
+  id          BigInt   @id @default(autoincrement())
+  category    Int
+  title       String   @db.Text
+  content     String   @db.Text
+  publishedAt DateTime @map("published_at") @db.Timestamptz()
+  author      String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  @@map("portal_news")
+  @@index([category])
+  @@index([publishedAt])
+}
+
+model PortalDonation {
+  id        BigInt   @id @default(autoincrement())
+  accountId BigInt   @map("account_id")
+  code      String   @db.Text
+  type      String   @db.Text
+  status    Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  @@map("portal_donations")
+  @@index([accountId])
+  @@index([status])
+}
+
+model PortalPayment {
+  id              BigInt   @id @default(autoincrement())
+  itemName        String?  @map("item_name") @db.Text
+  itemNumber      String?  @map("item_number") @db.Text
+  paymentStatus   String?  @map("payment_status") @db.Text
+  paymentAmount   Decimal? @map("payment_amount") @db.Decimal(12, 2)
+  paymentCurrency String?  @map("payment_currency") @db.Text
+  txnId           String?  @unique @map("txn_id") @db.Text
+  receiverEmail   String?  @map("receiver_email") @db.Text
+  payerEmail      String?  @map("payer_email") @db.Text
+  custom          String?  @db.Text
+  createdtime     DateTime @default(now()) @db.Timestamptz()
+
+  @@map("portal_payments")
+  @@index([paymentStatus])
+  @@index([createdtime])
+}
+
+model PortalTicket {
+  id          BigInt   @id @default(autoincrement())
+  account     BigInt
+  category    String   @db.Text
+  description String   @db.Text
+  status      String   @default("open") @db.Text
+  priority    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  
+  user        PortalUser @relation(fields: [account], references: [id], onDelete: Cascade)
+
+  @@map("portal_tickets")
+  @@index([account])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model PortalVote {
+  id        BigInt   @id @default(autoincrement())
+  site      String   @db.Text
+  accountId BigInt   @map("account_id")
+  accountIp String   @map("account_ip") @db.Text
+  votedAt   DateTime @map("voted_at") @db.Timestamptz()
+  
+  user      PortalUser @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([site, accountId, votedAt])
+  @@map("portal_votes")
+  @@index([accountId])
+  @@index([votedAt])
+}
+
+model PortalRedeemCode {
+  id         BigInt    @id @default(autoincrement())
+  code       String    @unique @db.Text
+  redeemType String    @map("redeem_type") @db.Text
+  value      Int
+  status     Int       @default(0)
+  usedBy     BigInt?   @map("used_by")
+  usedAt     DateTime? @map("used_at") @db.Timestamptz()
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  
+  user       PortalUser? @relation("RedeemCodeUser", fields: [usedBy], references: [id], onDelete: SetNull)
+
+  @@map("portal_redeem_codes")
+  @@index([code])
+  @@index([status])
+}
+
+model PortalMarketListing {
+  id              BigInt   @id @default(autoincrement())
+  serverId        String   @map("server_id") @db.Text
+  sellerCharIndex BigInt   @map("seller_char_index")
+  sellerCharName  String   @map("seller_char_name") @db.Text
+  itemId          BigInt   @map("item_id")
+  serial          String?  @db.Text
+  plus            Int      @default(0)
+  flag            Int      @default(0)
+  quantity        Int      @default(1)
+  priceGold       BigInt   @map("price_gold")
+  itemOptions     Json?    @map("item_options")
+  nowDur          Int?     @map("now_dur")
+  maxDur          Int?     @map("max_dur")
+  listedAt        DateTime @default(now()) @map("listed_at") @db.Timestamptz()
+  status          String   @default("active") @db.Text
+
+  @@map("portal_market_listings")
+  @@index([serverId])
+  @@index([status])
+  @@index([listedAt])
+}
