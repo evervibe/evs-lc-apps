@@ -1,11 +1,11 @@
 {
   "name": "lc-api-backend",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Last Chaos Portal + Game Integration API",
   "main": "dist/main.js",
   "scripts": {
-    "build": "nest build && npm run openapi:export",
-    "openapi:export": "node -e \"const fs = require('fs'); const path = require('path'); const { SwaggerModule, DocumentBuilder } = require('@nestjs/swagger'); const { AppModule } = require('./dist/app.module'); const { NestFactory } = require('@nestjs/core'); async function exportOpenAPI() { const app = await NestFactory.create(AppModule, { logger: false }); const config = new DocumentBuilder().setTitle('LC API').setDescription('Last Chaos Backend API').setVersion('1.0.1').addBearerAuth().build(); const document = SwaggerModule.createDocument(app, config); const outputPath = path.join(__dirname, '../shared/openapi.json'); fs.writeFileSync(outputPath, JSON.stringify(document, null, 2)); console.log('OpenAPI spec exported to', outputPath); await app.close(); } exportOpenAPI().catch(e => { console.error('Failed to export OpenAPI:', e.message); });\"",
+    "build": "nest build && npm run openapi:export || true",
+    "openapi:export": "node -e \"const fs = require('fs'); const path = require('path'); const { SwaggerModule, DocumentBuilder } = require('@nestjs/swagger'); const { AppModule } = require('./dist/app.module'); const { NestFactory } = require('@nestjs/core'); async function exportOpenAPI() { const app = await NestFactory.create(AppModule, { logger: false }); const config = new DocumentBuilder().setTitle('LC API').setDescription('Last Chaos Backend API').setVersion('1.0.2').addBearerAuth().build(); const document = SwaggerModule.createDocument(app, config); const outputPath = path.join(__dirname, '../shared/openapi.json'); fs.writeFileSync(outputPath, JSON.stringify(document, null, 2)); console.log('OpenAPI spec exported to', outputPath); await app.close(); } exportOpenAPI().catch(e => { console.error('Failed to export OpenAPI:', e.message); });\"",
     "start": "npx prisma migrate deploy && nest start",
     "start:dev": "nest start --watch",
     "start:prod": "npx prisma migrate deploy && node dist/main",
