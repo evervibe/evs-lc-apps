@@ -1,6 +1,7 @@
+import { Users, Swords, Trophy, Zap, Wallet, User, Clock, TrendingUp, Gift, Download, FileText, ExternalLink, Check, Plus, MessageSquare, ShoppingCart, ArrowLeft } from "@/lib/icons";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+
 
 export default async function NewsDetailPage({
   params,

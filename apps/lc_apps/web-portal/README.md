@@ -19,12 +19,13 @@ Public-facing portal for LastChaos players. Built with Next.js 15, TypeScript, a
 
 - Next.js 15 with App Router
 - TypeScript
-- Tailwind CSS v4
-- shadcn/ui + Radix UI
-- Lucide React icons
+- Tailwind CSS v4 (pure utility classes)
+- Framer Motion 12 (animations)
 - Zustand for state management
 - React Hook Form
 - Axios for API calls
+
+**Note:** This project uses a minimal UI architecture migrated from `lc_website_next`. No external UI libraries (Radix UI, shadcn) are used. All components are built with pure Tailwind CSS utility classes.
 
 ## Getting Started
 
@@ -91,11 +92,13 @@ portal-web/
 │   ├── support/          # Support tickets
 │   └── dashboard/        # User dashboard
 ├── components/
-│   ├── ui/              # shadcn/ui components
-│   └── layout/          # Layout components (Header, Footer)
+│   ├── Header.tsx        # Main navigation component
+│   ├── Footer.tsx        # Footer with links
+│   └── ui/              # Simplified UI components (no external deps)
 ├── lib/
 │   ├── api.ts          # API client with JWT refresh
-│   └── utils.ts        # Utility functions
+│   ├── utils.ts        # Utility functions
+│   └── icons.tsx       # Local SVG icon library
 └── hooks/              # Custom React hooks
 ```
 
@@ -119,16 +122,22 @@ portal-web/
 
 ## Components
 
-### UI Components (shadcn/ui)
-- Button
-- Input
-- Card
-- Dialog
-- Toast
+### UI Components (Simplified, No External Dependencies)
+- Button - Pure Tailwind implementation
+- Input - Pure Tailwind implementation
+- Card - Pure Tailwind implementation
+- Dialog - Simplified modal component
+- Toast - Simple notification system
+
+All UI components are built without external libraries, using pure Tailwind CSS utility classes.
 
 ### Layout Components
-- Header - Navigation with auth status
-- Footer - Links and social media
+- Header - Navigation with responsive mobile menu
+- Footer - Four-column layout with links and social media
+
+### Icons
+- Local icon library (`lib/icons.tsx`) with SVG-based icons
+- No external icon dependencies
 
 ## API Integration
 
@@ -148,11 +157,32 @@ const response = await apiClient.post("/auth/login", {
 
 ## Styling
 
-Uses Tailwind CSS v4 with custom theme:
-- Light/Dark mode support via next-themes
-- Custom color palette
-- Responsive design
-- Utility-first approach
+Uses Tailwind CSS v4 with a minimal theme system:
+- **System-based dark mode** via `@media (prefers-color-scheme: dark)`
+- **Simple color palette**: 5 CSS variables (background, foreground, primary, primary-dark, accent)
+- **System font stack** for optimal performance
+- **Responsive design** with Tailwind utilities
+- **No external UI libraries** - pure utility-first approach
+
+### Color System
+```css
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #4a90e2;
+  --primary-dark: #2d5f8d;
+  --accent: #ffdda9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #090b11;
+    --foreground: #ededed;
+  }
+}
+```
+
+See [LC_UI_MIGRATION_SUMMARY.md](../../docs/LC_UI_MIGRATION_SUMMARY.md) for complete migration details.
 
 ## State Management
 
