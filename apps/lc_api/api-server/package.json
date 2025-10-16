@@ -1,6 +1,6 @@
 {
   "name": "lc-api-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Last Chaos Portal + Game Integration API",
   "main": "dist/main.js",
   "scripts": {

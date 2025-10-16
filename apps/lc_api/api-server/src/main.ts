@@ -38,7 +38,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('LC API - Portal + Game Integration')
     .setDescription('Last Chaos Backend API - Portal System (PostgreSQL) + Game Integration (MySQL)')
-    .setVersion('1.0.0')
+    .setVersion('1.0.1')
     .addBearerAuth()
     .addTag('auth', 'Authentication endpoints')
     .addTag('users', 'User management')

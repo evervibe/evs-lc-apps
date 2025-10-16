@@ -23,7 +23,7 @@ export class HealthController {
   @ApiOperation({ summary: 'Get API version' })
   version() {
     return {
-      version: '1.0.0',
+      version: '1.0.1',
       name: 'lc-api',
       timestamp: new Date().toISOString(),
     };
