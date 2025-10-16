@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0  
 **Last Updated:** 2025-10-16  
-**Total Docs:** 12 comprehensive guides (100+ KB)
+**Total Docs:** 14 comprehensive guides (150+ KB)
 
 Welcome to the EVS-LC Apps documentation! This index helps you navigate all available documentation.
 
@@ -124,6 +124,35 @@ New to the project? Start here:
 ---
 
 ## 📋 Reports & Analysis
+
+### Integration & Migration Plans
+
+**[LC_WEBSITE_NEXT_INTEGRATION_MASTER.md](./LC_WEBSITE_NEXT_INTEGRATION_MASTER.md)** (45+ KB)
+- Complete integration blueprint for LC_WEBSITE_NEXT → EVS-LC-APPS
+- Current state analysis
+- Detailed 7-phase integration strategy
+- Component library enhancement plan
+- Security & authentication implementation
+- API client refactoring guide
+- State management strategy
+- CI/CD pipeline setup
+- Performance optimization roadmap
+- Testing strategy (Unit + E2E)
+- Implementation timeline (7 weeks)
+- Validation & success metrics
+
+**Best for:** Understanding the integration roadmap and implementation plan
+
+**[LC_WEBSITE_INTEGRATION_QUICKSTART.md](./LC_WEBSITE_INTEGRATION_QUICKSTART.md)** (7 KB)
+- Quick reference guide for integration
+- High-level overview of phases
+- Priority levels and timelines
+- Key commands and file locations
+- Quick navigation to detailed sections
+
+**Best for:** Quick reference during implementation
+
+---
 
 ### Version History
 
@@ -259,6 +288,7 @@ New to the project? Start here:
 | Docker | [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) |
 | Environment Variables | [ENV_REFERENCE.md](./ENV_REFERENCE.md) |
 | Frontend Development | [FRONTEND_GUIDE.md](./FRONTEND_GUIDE.md) |
+| Integration Planning | [LC_WEBSITE_NEXT_INTEGRATION_MASTER.md](./LC_WEBSITE_NEXT_INTEGRATION_MASTER.md), [LC_WEBSITE_INTEGRATION_QUICKSTART.md](./LC_WEBSITE_INTEGRATION_QUICKSTART.md) |
 | JWT Tokens | [SECURITY_POLICY.md](./SECURITY_POLICY.md), [API_GUIDE.md](./API_GUIDE.md) |
 | Linting | [WORKSPACE_GUIDE.md](./WORKSPACE_GUIDE.md) |
 | Migration | [MIGRATION_REPORT_v1.0.0.md](./MIGRATION_REPORT_v1.0.0.md) |
@@ -284,13 +314,13 @@ New to the project? Start here:
 
 | Metric | Value |
 |--------|-------|
-| Total Documents | 12 guides + 1 index |
-| Total Size | 100+ KB |
-| Total Words | ~100,000 words |
-| Total Lines | ~3,000 lines |
-| Code Examples | 100+ |
+| Total Documents | 14 guides + 1 index |
+| Total Size | 150+ KB |
+| Total Words | ~150,000 words |
+| Total Lines | ~4,500 lines |
+| Code Examples | 150+ |
 | Diagrams | 10+ |
-| Tables | 50+ |
+| Tables | 60+ |
 | Coverage | 95%+ |
 
 ## 🛠️ Documentation Maintenance
@@ -362,6 +392,8 @@ Found an error or want to improve the docs?
 | DEEP_ANALYSIS_REPORT.md | ✅ Complete | 2025-10-16 | 100% |
 | MIGRATION_REPORT_v1.0.0.md | ✅ Complete | 2025-10-16 | 100% |
 | STRUCTURE_MAP.md | ✅ Complete | 2025-10-16 | 100% |
+| LC_WEBSITE_NEXT_INTEGRATION_MASTER.md | ✅ Complete | 2025-10-16 | 100% |
+| LC_WEBSITE_INTEGRATION_QUICKSTART.md | ✅ Complete | 2025-10-16 | 100% |
 | DOCS_INDEX.md | ✅ Complete | 2025-10-16 | 100% |
 
 ## 🎉 Thank You!
