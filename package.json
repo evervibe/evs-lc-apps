@@ -1,0 +1,35 @@
+{
+  "name": "evs-lc-apps",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EverVibe Studios - Last Chaos Applications Monorepo",
+  "author": "EverVibe Studios",
+  "license": "SEE LICENSE IN LICENSE-CUSTOM",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evervibe/evs-lc-apps.git"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "type-check": "turbo run type-check",
+    "install:all": "pnpm install"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "prettier": "^3.4.2",
+    "typescript": "^5.9.3"
+  },
+  "packageManager": "pnpm@10.18.3",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
