@@ -1,0 +1,7 @@
+packages:
+  - 'apps/lc_api'
+  - 'apps/lc_api/api-server'
+  - 'apps/lc_apps'
+  - 'apps/lc_apps/web-portal'
+  - 'apps/lc_apps/web-admin'
+  - 'apps/lc_apps/shared'
