@@ -171,6 +171,7 @@ Reusable UI components, hooks, utilities, and type definitions shared across fro
 
 Comprehensive documentation is available in the `/docs` directory:
 
+### Core Guides
 - **[Architecture Overview](./docs/ARCHITECTURE.md)** - System design and components
 - **[API Guide](./docs/API_GUIDE.md)** - Backend API documentation
 - **[Frontend Guide](./docs/FRONTEND_GUIDE.md)** - Frontend architecture and development
@@ -178,8 +179,17 @@ Comprehensive documentation is available in the `/docs` directory:
 - **[Environment Reference](./docs/ENV_REFERENCE.md)** - Environment variables guide
 - **[Workspace Guide](./docs/WORKSPACE_GUIDE.md)** - Monorepo workspace setup
 - **[Security Policy](./docs/SECURITY_POLICY.md)** - Security measures and best practices
+
+### Integration & Migration
+- **[LC_WEBSITE_NEXT Integration Master](./docs/LC_WEBSITE_NEXT_INTEGRATION_MASTER.md)** - Complete integration blueprint
+- **[Integration Quick Start](./docs/LC_WEBSITE_INTEGRATION_QUICKSTART.md)** - Quick reference guide
+
+### Version History
 - **[Changelog](./docs/CHANGELOG.md)** - Version history
 - **[Migration Report](./docs/MIGRATION_REPORT_v1.0.0.md)** - v1.0.0 migration details
+
+### Navigation
+- **[Documentation Index](./docs/DOCS_INDEX.md)** - Complete documentation navigation
 
 ## 🛠️ Development Commands
 
