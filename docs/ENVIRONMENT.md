@@ -1,10 +1,14 @@
 # Environment Configuration Guide
 
+**Version:** 1.1.0  
+**Last Updated:** 2025-10-16
+
 This document provides a comprehensive reference for all environment variables used across the EVS-LC-APPS monorepo.
 
 ## Table of Contents
 
 - [Backend API Configuration](#backend-api-configuration)
+- [Game Bridge Worker Configuration](#game-bridge-worker-configuration) 🆕
 - [Frontend Portal Configuration](#frontend-portal-configuration)
 - [Frontend Admin Configuration](#frontend-admin-configuration)
 - [Docker Configuration](#docker-configuration)
@@ -121,6 +125,130 @@ CORS_ORIGINS=https://portal.example.com,https://admin.example.com
 |----------|------|---------|-------------|
 | `MYSQL_EXEC_USER` | string | `lc_rw` | Read-write user for stored procedures |
 | `MYSQL_EXEC_PASS` | string | `only_exec_sp` | User password |
+
+---
+
+## Game Bridge Worker Configuration
+
+**New in v1.1.0** 🆕
+
+Location: `apps/lc_game_bridge/.env`
+
+Copy from template:
+```bash
+cp apps/lc_game_bridge/.env.example apps/lc_game_bridge/.env
+```
+
+The Game Bridge Worker synchronizes data between game databases (MySQL) and the portal database (PostgreSQL).
+
+### Server Configuration
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `NODE_ENV` | string | `development` | Environment mode (development, production, test) |
+| `PORT` | number | `5000` | Port for the Game Bridge API |
+
+### Portal Database Connection
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `PORTAL_DATABASE_URL` | string | - | Full PostgreSQL connection string (same as API) |
+
+**Example:**
+```
+postgresql://lcuser:lcpass@localhost:5432/lc_portal?schema=public
+```
+
+### Game Database Configuration (MySQL)
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `GAME_DB_HOST` | string | `localhost` | MySQL game server host |
+| `GAME_DB_PORT` | number | `3306` | MySQL port |
+| `GAME_DB_USER` | string | `lcgame` | MySQL read-only user |
+| `GAME_DB_PASSWORD` | string | - | MySQL user password |
+| `GAME_DB_AUTH` | string | `lc_auth` | Auth database name |
+| `GAME_DB_DATA` | string | `lc_data` | Game data database name |
+| `GAME_DB_LOGS` | string | `lc_logs` | Logs database name |
+| `GAME_DB_CONNECTION_LIMIT` | number | `10` | Max database connections |
+
+**Security Note:** Use a read-only MySQL user for the Game Bridge Worker.
+
+### Redis Configuration
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `REDIS_HOST` | string | `localhost` | Redis server host |
+| `REDIS_PORT` | number | `6379` | Redis port |
+| `REDIS_PASSWORD` | string | - | Redis password (optional) |
+| `REDIS_DB` | number | `0` | Redis database number |
+
+### Synchronization Settings
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `SYNC_INTERVAL_CHARACTER` | number | `300000` | Character sync interval (ms) - 5 minutes |
+| `SYNC_INTERVAL_INVENTORY` | number | `600000` | Inventory sync interval (ms) - 10 minutes |
+| `SYNC_INTERVAL_GUILD` | number | `900000` | Guild sync interval (ms) - 15 minutes |
+| `SYNC_BATCH_SIZE` | number | `100` | Number of records per batch |
+
+### Job Queue Settings
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `QUEUE_CONCURRENCY` | number | `5` | Concurrent job processing |
+| `QUEUE_RETRY_ATTEMPTS` | number | `3` | Retry attempts for failed jobs |
+| `QUEUE_RETRY_DELAY` | number | `60000` | Delay between retries (ms) - 1 minute |
+
+### Logging Configuration
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `LOG_LEVEL` | string | `info` | Log level (debug, info, warn, error) |
+| `LOG_TO_FILE` | boolean | `false` | Enable file logging |
+| `LOG_FILE_PATH` | string | `/var/log/game-bridge/` | Log file directory |
+
+### Monitoring
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `ENABLE_METRICS` | boolean | `true` | Enable Prometheus metrics |
+| `METRICS_PORT` | number | `5001` | Metrics endpoint port |
+
+**Example .env file:**
+```env
+# Node Environment
+NODE_ENV=production
+PORT=5000
+
+# Portal Database
+PORTAL_DATABASE_URL=postgresql://lcuser:lcpass@localhost:5432/lc_portal
+
+# Game Databases
+GAME_DB_HOST=localhost
+GAME_DB_PORT=3306
+GAME_DB_USER=game_bridge_ro
+GAME_DB_PASSWORD=secure_password
+GAME_DB_AUTH=lc_auth
+GAME_DB_DATA=lc_data
+GAME_DB_LOGS=lc_logs
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+
+# Sync Settings
+SYNC_INTERVAL_CHARACTER=300000
+SYNC_INTERVAL_INVENTORY=600000
+SYNC_INTERVAL_GUILD=900000
+SYNC_BATCH_SIZE=100
+
+# Logging
+LOG_LEVEL=info
+LOG_TO_FILE=true
+LOG_FILE_PATH=/var/log/game-bridge/
+```
 
 ---
 

@@ -60,7 +60,7 @@ jobs:
     
     strategy:
       matrix:
-        service: [api, web-portal, web-admin]
+        service: [api, web-portal, web-admin, game-bridge]
     
     steps:
       - name: Checkout code
@@ -73,7 +73,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: apps/${{ matrix.service == 'api' && 'lc_api' || 'lc_apps' }}/${{ matrix.service == 'api' && '' || matrix.service }}/Dockerfile
+          file: apps/${{ matrix.service == 'api' && 'lc_api' || matrix.service == 'game-bridge' && 'lc_game_bridge' || 'lc_apps' }}/${{ matrix.service == 'api' || matrix.service == 'game-bridge' ? '' : matrix.service }}/Dockerfile
           push: false
           tags: evs-lc-${{ matrix.service }}:test
           cache-from: type=gha
