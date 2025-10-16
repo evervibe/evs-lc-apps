@@ -34,7 +34,7 @@ jobs:
         run: pnpm install --frozen-lockfile
       
       - name: Generate Prisma Client
-        run: cd apps/lc_api/api-server && npx prisma generate
+        run: npx prisma generate --schema=apps/lc_api/api-server/prisma/schema.prisma
       
       - name: Type check
         run: pnpm type-check
