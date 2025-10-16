@@ -30,9 +30,14 @@ export default function RankingsPage() {
     <div className="container mx-auto px-6 py-12">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">Rankings</h1>
-        <p className="text-muted-foreground">
+        <p className="text-text-soft">
           See who tops the leaderboards
         </p>
+      </div>
+
+      {/* Warning Banner */}
+      <div className="p-4 bg-primary/10 border border-primary/20 text-primary rounded-md mb-6">
+        ⚠ Game database not connected — showing mock data for demonstration
       </div>
 
       <div className="flex gap-2 mb-6">
@@ -59,19 +64,21 @@ export default function RankingsPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-3 px-4">Rank</th>
-                    <th className="text-left py-3 px-4">Character</th>
-                    <th className="text-left py-3 px-4">Level</th>
-                    <th className="text-left py-3 px-4">Class</th>
-                    <th className="text-left py-3 px-4">Guild</th>
-                    <th className="text-left py-3 px-4">Experience</th>
+                  <tr className="border-b border-primary/20 bg-primary/10">
+                    <th className="text-left py-3 px-4 text-primary">Rank</th>
+                    <th className="text-left py-3 px-4 text-primary">Character</th>
+                    <th className="text-left py-3 px-4 text-primary">Level</th>
+                    <th className="text-left py-3 px-4 text-primary">Class</th>
+                    <th className="text-left py-3 px-4 text-primary">Guild</th>
+                    <th className="text-left py-3 px-4 text-primary">Experience</th>
                   </tr>
                 </thead>
                 <tbody>
                   {characterRankings.slice(0, 20).map((char) => (
-                    <tr key={char.rank} className="border-b hover:bg-muted/50">
-                      <td className="py-3 px-4 font-bold">#{char.rank}</td>
+                    <tr key={char.rank} className="border-b border-primary/20 hover:bg-primary/5">
+                      <td className={`py-3 px-4 font-bold ${char.rank <= 3 ? "text-primary drop-shadow-[0_0_10px_rgba(234,209,159,0.5)]" : ""}`}>
+                        #{char.rank}
+                      </td>
                       <td className="py-3 px-4">{char.character_name}</td>
                       <td className="py-3 px-4">{char.level}</td>
                       <td className="py-3 px-4">{char.class}</td>
@@ -95,18 +102,20 @@ export default function RankingsPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-3 px-4">Rank</th>
-                    <th className="text-left py-3 px-4">Guild Name</th>
-                    <th className="text-left py-3 px-4">Level</th>
-                    <th className="text-left py-3 px-4">Members</th>
-                    <th className="text-left py-3 px-4">Guild Master</th>
+                  <tr className="border-b border-primary/20 bg-primary/10">
+                    <th className="text-left py-3 px-4 text-primary">Rank</th>
+                    <th className="text-left py-3 px-4 text-primary">Guild Name</th>
+                    <th className="text-left py-3 px-4 text-primary">Level</th>
+                    <th className="text-left py-3 px-4 text-primary">Members</th>
+                    <th className="text-left py-3 px-4 text-primary">Guild Master</th>
                   </tr>
                 </thead>
                 <tbody>
                   {guildRankings.slice(0, 20).map((guild) => (
-                    <tr key={guild.rank} className="border-b hover:bg-muted/50">
-                      <td className="py-3 px-4 font-bold">#{guild.rank}</td>
+                    <tr key={guild.rank} className="border-b border-primary/20 hover:bg-primary/5">
+                      <td className={`py-3 px-4 font-bold ${guild.rank <= 3 ? "text-primary drop-shadow-[0_0_10px_rgba(234,209,159,0.5)]" : ""}`}>
+                        #{guild.rank}
+                      </td>
                       <td className="py-3 px-4">{guild.guild_name}</td>
                       <td className="py-3 px-4">{guild.level}</td>
                       <td className="py-3 px-4">{guild.members_count}</td>

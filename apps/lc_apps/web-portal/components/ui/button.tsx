@@ -2,11 +2,11 @@ import * as React from "react";
 
 const buttonVariants = {
   variant: {
-    default: "bg-primary text-white shadow hover:bg-primary-dark",
+    default: "bg-gradient-to-r from-primary to-primary-dark text-black shadow hover:opacity-90",
     destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700",
-    outline: "border border-foreground/20 bg-background shadow-sm hover:bg-foreground/10",
-    secondary: "bg-foreground/10 text-foreground shadow-sm hover:bg-foreground/20",
-    ghost: "hover:bg-foreground/10",
+    outline: "border border-primary/20 bg-background shadow-sm hover:bg-primary/10 text-text-soft hover:text-primary",
+    secondary: "bg-primary/10 text-foreground shadow-sm hover:bg-primary/20",
+    ghost: "hover:bg-primary/10 text-text-soft hover:text-primary",
     link: "text-primary underline-offset-4 hover:underline",
   },
   size: {
