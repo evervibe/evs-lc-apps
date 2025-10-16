@@ -1,0 +1,187 @@
+version: '3.9'
+
+networks:
+  evs-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+services:
+  # PostgreSQL Portal Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: lc-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-lc_portal}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_in_production}
+      POSTGRES_DB: ${POSTGRES_DB:-lc_portal_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - evs-net
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-lc_portal}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache & Sessions
+  redis:
+    image: redis:7-alpine
+    container_name: lc-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-change_me_in_production}
+    volumes:
+      - redis_data:/data
+    networks:
+      - evs-net
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  api:
+    build:
+      context: .
+      dockerfile: apps/lc_api/Dockerfile
+    container_name: lc-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # Server
+      NODE_ENV: production
+      API_PORT: 4000
+      
+      # Database
+      DATABASE_URL: postgresql://${POSTGRES_USER:-lc_portal}:${POSTGRES_PASSWORD:-change_me_in_production}@postgres:5432/${POSTGRES_DB:-lc_portal_db}?schema=public
+      
+      # Redis
+      REDIS_URL: redis://:${REDIS_PASSWORD:-change_me_in_production}@redis:6379
+      
+      # JWT (MUST BE CHANGED IN PRODUCTION)
+      JWT_SECRET: ${JWT_SECRET:-please_change_this_to_a_strong_secret_min_32_characters}
+      JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-15m}
+      JWT_REFRESH_TTL: ${JWT_REFRESH_TTL:-7d}
+      JWT_ISSUER: ${JWT_ISSUER:-lc-api}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-lc-clients}
+      
+      # TOTP
+      TOTP_ISSUER: ${TOTP_ISSUER:-LastChaos}
+      TOTP_WINDOW: ${TOTP_WINDOW:-1}
+      
+      # CORS
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://portal.yourdomain.com,https://admin.yourdomain.com}
+      
+      # MySQL Databases (External - Configure as needed)
+      MYSQL_AUTH_HOST: ${MYSQL_AUTH_HOST:-host.docker.internal}
+      MYSQL_AUTH_PORT: ${MYSQL_AUTH_PORT:-3306}
+      MYSQL_AUTH_USER: ${MYSQL_AUTH_USER:-lc_ro}
+      MYSQL_AUTH_PASS: ${MYSQL_AUTH_PASS:-read_only}
+      MYSQL_AUTH_DB: ${MYSQL_AUTH_DB:-db_auth}
+      
+      MYSQL_GAME_HOST: ${MYSQL_GAME_HOST:-host.docker.internal}
+      MYSQL_GAME_PORT: ${MYSQL_GAME_PORT:-3306}
+      MYSQL_GAME_USER: ${MYSQL_GAME_USER:-lc_ro}
+      MYSQL_GAME_PASS: ${MYSQL_GAME_PASS:-read_only}
+      MYSQL_GAME_DB: ${MYSQL_GAME_DB:-db_db}
+      
+      MYSQL_DATA_HOST: ${MYSQL_DATA_HOST:-host.docker.internal}
+      MYSQL_DATA_PORT: ${MYSQL_DATA_PORT:-3306}
+      MYSQL_DATA_USER: ${MYSQL_DATA_USER:-lc_ro}
+      MYSQL_DATA_PASS: ${MYSQL_DATA_PASS:-read_only}
+      MYSQL_DATA_DB: ${MYSQL_DATA_DB:-db_data}
+      
+      MYSQL_LOGS_HOST: ${MYSQL_LOGS_HOST:-host.docker.internal}
+      MYSQL_LOGS_PORT: ${MYSQL_LOGS_PORT:-3306}
+      MYSQL_LOGS_USER: ${MYSQL_LOGS_USER:-lc_ro}
+      MYSQL_LOGS_PASS: ${MYSQL_LOGS_PASS:-read_only}
+      MYSQL_LOGS_DB: ${MYSQL_LOGS_DB:-db_logs}
+      
+      MYSQL_EXEC_USER: ${MYSQL_EXEC_USER:-lc_rw}
+      MYSQL_EXEC_PASS: ${MYSQL_EXEC_PASS:-only_exec_sp}
+    networks:
+      - evs-net
+    ports:
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:4000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Web Portal Frontend
+  web-portal:
+    build:
+      context: .
+      dockerfile: apps/lc_apps/web-portal/Dockerfile
+    container_name: lc-web-portal
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      NEXT_PUBLIC_APP_ENV: production
+      NEXT_PUBLIC_API_BASE_URL: ${PORTAL_API_URL:-http://api:4000}
+      NEXT_PUBLIC_APP_NAME: LastChaos Portal
+      NEXT_PUBLIC_APP_URL: ${PORTAL_URL:-https://portal.yourdomain.com}
+      NEXT_PUBLIC_ENABLE_2FA: ${ENABLE_2FA:-true}
+      NEXT_PUBLIC_ENABLE_VOTE: ${ENABLE_VOTE:-true}
+      NEXT_PUBLIC_ENABLE_SHOP: ${ENABLE_SHOP:-true}
+    networks:
+      - evs-net
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Web Admin Dashboard
+  web-admin:
+    build:
+      context: .
+      dockerfile: apps/lc_apps/web-admin/Dockerfile
+    container_name: lc-web-admin
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      NEXT_PUBLIC_APP_ENV: production
+      NEXT_PUBLIC_API_BASE_URL: ${ADMIN_API_URL:-http://api:4000}
+      NEXT_PUBLIC_APP_NAME: LastChaos Admin
+      NEXT_PUBLIC_APP_URL: ${ADMIN_URL:-https://admin.yourdomain.com}
+      NEXT_PUBLIC_ADMIN_ROLE: admin
+    networks:
+      - evs-net
+    ports:
+      - "3001:3001"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
