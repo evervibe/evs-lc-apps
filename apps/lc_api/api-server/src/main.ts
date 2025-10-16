@@ -3,8 +3,12 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { validateEnvironment } from './config/env.validation';
 
 async function bootstrap() {
+  // Validate environment variables before starting
+  validateEnvironment();
+
   console.log('[Bootstrap] Creating Nest application...');
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -34,7 +38,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('LC API - Portal + Game Integration')
     .setDescription('Last Chaos Backend API - Portal System (PostgreSQL) + Game Integration (MySQL)')
-    .setVersion('1.0.0')
+    .setVersion('1.0.1')
     .addBearerAuth()
     .addTag('auth', 'Authentication endpoints')
     .addTag('users', 'User management')

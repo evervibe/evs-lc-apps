@@ -1,9 +1,10 @@
 # EVS-LC Apps - EverVibe Studios Last Chaos Applications
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](./VERSION)
+[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](./VERSION)
 [![License](https://img.shields.io/badge/license-Custom-red.svg)](./LICENSE-CUSTOM)
 [![Node](https://img.shields.io/badge/node-20%2B-brightgreen.svg)](https://nodejs.org/)
 [![pnpm](https://img.shields.io/badge/pnpm-10%2B-orange.svg)](https://pnpm.io/)
+[![CI](https://github.com/evervibe/evs-lc-apps/actions/workflows/ci.yml/badge.svg)](https://github.com/evervibe/evs-lc-apps/actions/workflows/ci.yml)
 
 Modern, scalable monorepo for Last Chaos MMORPG web applications and backend services.
 
@@ -279,14 +280,45 @@ See [Security Policy](./docs/SECURITY_POLICY.md) for detailed information.
 
 ## 🚢 Deployment
 
-### Using Docker
+### Production Deployment with Docker (Recommended)
+
+The easiest way to deploy EVS-LC-APPS in production is using Docker:
+
+```bash
+# Clone repository
+git clone https://github.com/evervibe/evs-lc-apps.git
+cd evs-lc-apps
+
+# Configure environment
+cp .env.example .env
+nano .env  # Edit with your production settings
+
+# Deploy with Docker Compose
+docker compose -f docker-compose.prod.yml up -d
+
+# Check status
+docker compose -f docker-compose.prod.yml ps
+```
+
+**Services included:**
+- PostgreSQL (Portal database)
+- Redis (Cache & sessions)
+- Backend API (NestJS)
+- Web Portal (Next.js)
+- Web Admin (Next.js)
+
+**Complete guide:** [Docker Production Deployment](./docs/DEPLOY_DOCKER_PROD.md)
+
+### Traditional Deployment
+
+#### Using Docker (Development)
 
 ```bash
 cd apps/lc_api/api-server
 docker-compose up -d
 ```
 
-### Using PM2
+#### Using PM2
 
 ```bash
 # API
@@ -346,9 +378,10 @@ See [LICENSE-CUSTOM](./LICENSE-CUSTOM) for full license terms.
 
 ## 🎯 Project Status
 
-**Current Version**: v1.0.0 (Stable)  
+**Current Version**: v1.0.1 (Production Ready)  
 **Last Updated**: 2025-10-16  
-**Status**: Production Ready ✅
+**Status**: Production Ready ✅  
+**CI/CD**: Automated ✅
 
 ### Completed Features
 - ✅ Complete backend API with dual database support
@@ -359,6 +392,9 @@ See [LICENSE-CUSTOM](./LICENSE-CUSTOM) for full license terms.
 - ✅ Comprehensive documentation
 - ✅ Security implementations
 - ✅ Production deployment guides
+- ✅ **Docker production setup with multi-stage builds**
+- ✅ **CI/CD pipeline with GitHub Actions**
+- ✅ **Environment validation and security headers**
 
 ### Roadmap
 - [ ] Complete admin dashboard implementation
@@ -383,5 +419,5 @@ Powered by:
 
 ---
 
-**EVS-LC Apps v1.0.0** - Modern, Secure, Scalable  
+**EVS-LC Apps v1.0.1** - Modern, Secure, Scalable  
 🎮 Built for the Last Chaos Community
