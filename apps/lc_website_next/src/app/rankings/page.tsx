@@ -53,25 +53,25 @@ export default function RankingsPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-accent">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-primary font-serif">
             Rankings
           </h1>
-          <p className="text-foreground/70 text-lg max-w-2xl mx-auto">
+          <p className="text-text-soft text-lg max-w-2xl mx-auto">
             Compete with the best players and guilds. Climb the ladder and earn your place among legends.
           </p>
         </div>
 
         {/* Mock Warning */}
         {isMock && (
-          <div className="mb-8 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-center">
-            <p className="text-yellow-500 text-sm">
+          <div className="mb-8 p-4 bg-primary/10 border border-primary/30 rounded-lg text-center">
+            <p className="text-primary text-sm">
               ⚠️ Game database not connected - showing mock data for demonstration
             </p>
           </div>
         )}
 
         {/* Tabs */}
-        <div className="flex justify-center mb-8 border-b border-foreground/10">
+        <div className="flex justify-center mb-8 border-b border-primary/20">
           <div className="flex gap-8">
             {tabs.map(tab => (
               <button
@@ -79,8 +79,8 @@ export default function RankingsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`pb-4 px-2 border-b-2 transition-colors ${
                   activeTab === tab.id
-                    ? 'border-accent text-accent font-semibold'
-                    : 'border-transparent text-foreground/60 hover:text-foreground'
+                    ? 'border-primary text-primary font-semibold'
+                    : 'border-transparent text-text-soft hover:text-foreground'
                 }`}
               >
                 <span className="mr-2">{tab.icon}</span>
@@ -91,7 +91,7 @@ export default function RankingsPage() {
         </div>
 
         {/* Rankings Table */}
-        <div className="bg-foreground/5 rounded-lg border border-foreground/10 overflow-hidden">
+        <div className="bg-card rounded-lg border border-primary/20 overflow-hidden shadow-[0_2px_8px_rgba(234,209,159,0.1)]">
           {loading ? (
             <div className="p-12 text-center">
               <div className="inline-flex items-center gap-2">
@@ -120,64 +120,64 @@ export default function RankingsPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-foreground/10">
+                <thead className="bg-primary/10 border-b border-primary/20">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary">
                       Rank
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary">
                       {activeTab === 'guild' ? 'Guild' : 'Character'}
                     </th>
                     {activeTab !== 'guild' && (
                       <>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary">
                           Class
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary">
                           Guild
                         </th>
                       </>
                     )}
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary">
                       Level
                     </th>
                     {activeTab === 'guild' && (
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary">
                         Members
                       </th>
                     )}
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary">
                       {activeTab === 'pvp' ? 'Kills' : 'Score'}
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-foreground/10">
+                <tbody className="divide-y divide-primary/10">
                   {rankings.map(entry => (
                     <tr
                       key={entry.rank}
-                      className="hover:bg-foreground/5 transition-colors"
+                      className="hover:bg-primary/5 transition-colors"
                     >
                       <td className="px-4 py-3">
                         <span
                           className={`font-bold ${
                             entry.rank === 1
-                              ? 'text-yellow-500'
+                              ? 'text-primary drop-shadow-[0_0_10px_rgba(234,209,159,0.6)]'
                               : entry.rank === 2
-                              ? 'text-gray-400'
+                              ? 'text-text-soft'
                               : entry.rank === 3
-                              ? 'text-amber-600'
+                              ? 'text-primary-dark'
                               : 'text-foreground'
                           }`}
                         >
                           #{entry.rank}
                         </span>
                       </td>
-                      <td className="px-4 py-3 font-semibold">
+                      <td className="px-4 py-3 font-semibold text-foreground">
                         {activeTab === 'guild' ? entry.guildName : entry.characterName}
                       </td>
                       {activeTab !== 'guild' && (
                         <>
-                          <td className="px-4 py-3 text-sm text-foreground/70">
+                          <td className="px-4 py-3 text-sm text-text-soft">
                             {entry.jobName || 'Unknown'}
                           </td>
                           <td className="px-4 py-3 text-sm text-foreground/70">

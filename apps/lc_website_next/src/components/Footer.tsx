@@ -2,37 +2,37 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-background border-t border-foreground/10 mt-auto">
+    <footer className="bg-card border-t border-primary/20 mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Main Section */}
           <div>
-            <h3 className="text-accent font-semibold text-sm uppercase mb-4 tracking-wider">
+            <h3 className="text-primary font-semibold text-sm uppercase mb-4 tracking-wider">
               Main
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/shop" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/shop" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Donate
                 </Link>
               </li>
               <li>
-                <Link href="/referrals" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/referrals" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Invite Friends
                 </Link>
               </li>
               <li>
-                <Link href="/vote" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/vote" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Vote Rewards
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <a href="#" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Forum
                 </a>
               </li>
               <li>
-                <Link href="/contact" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/contact" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Support
                 </Link>
               </li>
@@ -41,27 +41,27 @@ export default function Footer() {
 
           {/* How to Start Section */}
           <div>
-            <h3 className="text-accent font-semibold text-sm uppercase mb-4 tracking-wider">
+            <h3 className="text-primary font-semibold text-sm uppercase mb-4 tracking-wider">
               How to Start
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/register" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/register" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Register
                 </Link>
               </li>
               <li>
-                <Link href="/download" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/download" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Download
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/faq" className="text-text-soft hover:text-primary transition-colors text-sm">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/news" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/news" className="text-text-soft hover:text-primary transition-colors text-sm">
                   News
                 </Link>
               </li>
@@ -70,22 +70,22 @@ export default function Footer() {
 
           {/* Ranking Section */}
           <div>
-            <h3 className="text-accent font-semibold text-sm uppercase mb-4 tracking-wider">
+            <h3 className="text-primary font-semibold text-sm uppercase mb-4 tracking-wider">
               Ranking
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/rankings?tab=players" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/rankings?tab=players" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Players
                 </Link>
               </li>
               <li>
-                <Link href="/rankings?tab=guilds" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/rankings?tab=guilds" className="text-text-soft hover:text-primary transition-colors text-sm">
                   Guilds
                 </Link>
               </li>
               <li>
-                <Link href="/rankings?tab=pvp" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                <Link href="/rankings?tab=pvp" className="text-text-soft hover:text-primary transition-colors text-sm">
                   PVP
                 </Link>
               </li>
@@ -94,15 +94,15 @@ export default function Footer() {
 
           {/* Contact Section */}
           <div>
-            <h3 className="text-accent font-semibold text-sm uppercase mb-4 tracking-wider">
+            <h3 className="text-primary font-semibold text-sm uppercase mb-4 tracking-wider">
               Contact
             </h3>
             <div className="space-y-3">
               <div>
-                <p className="text-foreground/70 text-sm mb-2">Discord Channel:</p>
+                <p className="text-text-soft text-sm mb-2">Discord Channel:</p>
                 <a 
                   href="https://discord.gg/lastchaos" 
-                  className="text-primary hover:text-primary-dark transition-colors text-sm break-all"
+                  className="text-accent hover:text-accent/80 transition-colors text-sm break-all"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -112,7 +112,7 @@ export default function Footer() {
               <div className="flex space-x-4">
                 <a
                   href="https://discord.gg/lastchaos"
-                  className="text-foreground/70 hover:text-primary transition-colors"
+                  className="text-text-soft hover:text-primary transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Discord"
@@ -123,7 +123,7 @@ export default function Footer() {
                 </a>
                 <a
                   href="https://facebook.com"
-                  className="text-foreground/70 hover:text-primary transition-colors"
+                  className="text-text-soft hover:text-primary transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
@@ -134,7 +134,7 @@ export default function Footer() {
                 </a>
                 <a
                   href="https://youtube.com"
-                  className="text-foreground/70 hover:text-primary transition-colors"
+                  className="text-text-soft hover:text-primary transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="YouTube"
@@ -149,23 +149,23 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-12 pt-8 border-t border-foreground/10">
+        <div className="mt-12 pt-8 border-t border-primary/20">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-foreground/60 text-sm text-center md:text-left">
+            <div className="text-text-soft text-sm text-center md:text-left">
               <p>Copyright 2025 &copy; LastChaos</p>
               <p className="mt-1">Powered by Next.js 15 & TailwindCSS</p>
             </div>
             <div className="flex flex-wrap gap-4 text-sm justify-center">
-              <Link href="/legal/impressum" className="text-foreground/70 hover:text-foreground transition-colors">
+              <Link href="/legal/impressum" className="text-text-soft hover:text-primary transition-colors">
                 Impressum
               </Link>
-              <Link href="/legal/datenschutz" className="text-foreground/70 hover:text-foreground transition-colors">
+              <Link href="/legal/datenschutz" className="text-text-soft hover:text-primary transition-colors">
                 Datenschutz
               </Link>
-              <Link href="/faq" className="text-foreground/70 hover:text-foreground transition-colors">
+              <Link href="/faq" className="text-text-soft hover:text-primary transition-colors">
                 FAQ
               </Link>
-              <a href="/docs/CHANGELOG.md" className="text-foreground/70 hover:text-foreground transition-colors">
+              <a href="/docs/CHANGELOG.md" className="text-text-soft hover:text-primary transition-colors">
                 Changelog
               </a>
             </div>
