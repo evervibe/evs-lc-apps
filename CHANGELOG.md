@@ -5,6 +5,42 @@ All notable changes to the EVS-LC-APPS project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-10-16
+
+### Added
+
+#### Documentation
+- **Structure Documentation**
+  - `docs/STRUCTURE_OVERVIEW.md` - High-level repository structure overview
+  - `docs/ROADMAP_BASECRAFT.md` - Future development roadmap with v2 feature plans
+  - `docs/SECURITY_CHECKLIST.md` - Comprehensive security validation checklist
+
+#### Frontend
+- **Environment Templates**
+  - `.env.example` for web-portal with all required variables including `NEXT_PUBLIC_API_BASE_URL`
+  - `.env.example` for web-admin with all required variables including `NEXT_PUBLIC_API_BASE_URL`
+
+#### Infrastructure
+- **Directory Structure**
+  - Created `apps/lc_game_bridge/` placeholder for future game synchronization worker
+  - Created `infra/docker/` directory for Docker-related configurations
+  - Created `infra/configs/` directory for infrastructure configurations
+  - Added README.md files documenting future use
+
+### Changed
+
+- **Repository Cleanup**
+  - Removed redundant `.DS_Store` files
+  - Updated `.gitignore` to prevent future `.DS_Store` commits
+
+### Fixed
+
+- **Environment Configuration**
+  - Added missing `NEXT_PUBLIC_API_BASE_URL` to frontend environment examples
+  - Ensured all applications have proper environment templates
+
+---
+
 ## [1.0.1] - 2025-10-16
 
 ### Added
